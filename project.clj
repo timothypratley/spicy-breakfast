@@ -14,7 +14,8 @@
                  [devcards "0.2.5"]]
 
   :plugins [[lein-figwheel "0.5.16"]
-            [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]
+            [lein-doo "0.1.10"]]
 
   :source-paths ["src"]
 
@@ -34,6 +35,11 @@
                            :main spicy-breakfast.core
                            :optimizations :advanced
                            :pretty-print false}}
+               {:id "test"
+                :source-paths ["src" "test"]
+                :compiler {:output-to "resources/public/js/compiled/testable.js"
+                           :main spicy-breakfast.test-runner
+                           :optimizations :advanced}}
                {:id "devcards"
                 :source-paths ["src"]
                 :figwheel {:devcards true}
@@ -44,6 +50,9 @@
                            :source-map-timestamp true }}]}
 
   :figwheel {:css-dirs ["resources/public/css"]}
+
+  :doo {:build "test"}
+
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.16"]
                                   [cider/piggieback "0.3.8"]

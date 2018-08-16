@@ -24,6 +24,14 @@ To create a production build run:
 
 Open `resources/public/index.html` in a browser to see the production build.
 
+To run the tests in ClojureScript
+
+    lein doo nashorn test
+
+You can also run the tests in Clojure
+
+    lein test
+
 
 ## License
 

@@ -1,8 +1,9 @@
 (ns spicy-breakfast.view.product-list
   (:require [soda-ash.core :as sa]
-            [devcards.core :refer-macros [defcard-rg]]))
+            [devcards.core :refer-macros [defcard-rg]]
+            [spicy-breakfast.model :as model]))
 
-(defn product-list [products add-to-cart]
+(defn product-list [products]
   [sa/ItemGroup
    (doall
      (for [{:strs [id name imageURL price bulkPricing]} products]
@@ -21,7 +22,7 @@
           {:basic true
            :on-click
            (fn click-add-to-cart [event]
-             (add-to-cart id))}
+             (model/add-to-cart id))}
           "add to cart"]]]))])
 
 
@@ -52,7 +53,4 @@
     "bulkPricing" nil}])
 
 (defcard-rg product-list-card
-  [product-list
-   example-products
-   (fn add-to-cart-mock [id]
-     (println "Add product" id))])
+  [product-list example-products])
