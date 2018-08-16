@@ -1,12 +1,13 @@
 (ns spicy-breakfast.view.product-list
   (:require [soda-ash.core :as sa]
             [devcards.core :refer-macros [defcard-rg]]
+            [spicy-breakfast.logic :as logic]
             [spicy-breakfast.model :as model]))
 
 (defn product-list [products]
   [sa/ItemGroup
    (doall
-     (for [{:strs [id name imageURL price bulkPricing]} products]
+     (for [{:strs [id name imageURL price bulkPricing] :as product} products]
        ^{:key id}
        [sa/Item
         [sa/ItemImage {:floated "left"
@@ -15,14 +16,15 @@
         [sa/ItemContent
          [sa/ItemHeader name]
          [sa/ItemDescription
-          "$" price
+          (logic/moneyf price)
           (when-let [{:strs [amount totalPrice]} bulkPricing]
-            (str " or " amount " for $" totalPrice))]
+            (str " or " amount " for "
+                 (logic/moneyf totalPrice)))]
          [sa/Button
           {:basic true
            :on-click
            (fn click-add-to-cart [event]
-             (model/add-to-cart id))}
+             (model/add-to-cart! product))}
           "add to cart"]]]))])
 
 

@@ -8,6 +8,8 @@
 (defn main []
   (communication/fetch-products)
   (when-let [app (dom/getElement "app")]
-    (reagent/render-component [main/main model/app-state model/add-to-cart] app)))
+    (reagent/render-component
+      [main/main model/app-state]
+      app)))
 
 (main)

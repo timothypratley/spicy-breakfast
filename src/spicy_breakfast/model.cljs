@@ -5,7 +5,7 @@
 (defonce app-state
   (reagent/atom {}))
 
-(defn add-to-cart [product]
+(defn add-to-cart! [product]
   (swap! app-state logic/add-to-cart product))
 
 (defn receive-products [products]

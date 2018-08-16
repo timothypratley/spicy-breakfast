@@ -1,4 +1,6 @@
-(ns spicy-breakfast.logic)
+(ns spicy-breakfast.logic
+  (:require #?(:clj [clojure.pprint :as pprint]
+               :cljs [cljs.pprint :as pprint])))
 
 (defn price-products
   "Given a product and number, apply bulk pricing to figure out the final cost."
@@ -26,10 +28,18 @@
   [line-item product]
   (if line-item
     (add-product-to-line-item line-item)
-    {:product product
-     :number 1}))
+    (price-line-item
+      {:product product
+       :number 1})))
 
 (defn add-to-cart
   "Transition app-state by adding a product to the shopping cart."
-  [app-state {:keys [id] :as product}]
+  [app-state {:strs [id] :as product}]
   (update-in app-state [:cart id] update-or-add-line-item product))
+
+(defn order-total
+  [order]
+  (reduce + (map :price (vals order))))
+
+(defn moneyf [x]
+  (pprint/cl-format nil "$~,2f" x))

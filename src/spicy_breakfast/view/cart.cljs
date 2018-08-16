@@ -1,42 +1,45 @@
 (ns spicy-breakfast.view.cart
-  (:require [soda-ash.core :as sa]
-            [devcards.core :refer-macros [defcard-rg]]))
+  (:require [spicy-breakfast.logic :as logic]
+            [soda-ash.core :as sa]
+            [devcards.core :refer-macros [defcard-rg]]
+            [clojure.string :as str]))
 
-(defn cart [{:keys [products total-price]}]
+(defn cart [order]
   [sa/Container
-   [sa/Header
-    {:as "h2"}
-    "Cart"]
+   [sa/Header {:as "h2"} "Cart"]
    [sa/ListSA
     {:divided true
      :relaxed true}
     (doall
-      (for [{:keys [id name count price]} products]
+      (for [[id {:keys [product number price]}]
+            (sort-by (comp str/lower-case #(get % "name") :product val)
+                     order)
+            :let [{:strs [name]} product]]
         ^{:key id}
         [sa/ListItem
          [sa/ListContent
-          (str name " x " count)
-          [:span {:style {:float "right"}} price]]]))
+          (str name " x " number)
+          [:span
+           {:style {:float "right"}}
+           (logic/moneyf price)]]]))
     [sa/ListItem "Total"
-     [:span {:style {:float "right"}} total-price]]]])
+     [:span
+      {:style {:float "right"}}
+      (logic/moneyf (logic/order-total order))]]]])
 
 
 ;; Example
 
-(def example-cart
-  {:total-price 100
-   :products [{:id 1
-               :name "Brownie"
-               :count 1
-               :price 2}
-              {:id 2
-               :name "Key Lime Cheesecake"
-               :count 2
-               :price 16}
-              {:id 3
-               :name "Cookie"
-               :count 6
-               :price 7.5}]})
+(def example-order
+  {1 {:product {"name" "Brownie"}
+      :number 1
+      :price 3}
+   2 {:product {"name" "Key Lime Cheesecake"}
+      :number 2
+      :price 5}
+   3 {:product {"name" "Cookie"}
+      :number 6
+      :price 12.50}})
 
 (defcard-rg cart-card
-  [cart example-cart])
+  [cart example-order])

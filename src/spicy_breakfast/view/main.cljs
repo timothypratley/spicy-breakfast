@@ -4,7 +4,7 @@
             [reagent.core :as reagent]
             [reagent.ratom :refer-macros [reaction]]))
 
-(defn main [app-state add-to-cart]
+(defn main [app-state]
   (reagent/with-let
     [products (reaction (:products @app-state))
      categories (reaction (keys @products))
@@ -14,5 +14,5 @@
     [:div
      [:h3 "Spicy breakfast"]
      [:div (str @categories)]
-     [product-list/product-list @current-products add-to-cart]
+     [product-list/product-list @current-products]
      [cart/cart @cart]]))
