@@ -44,7 +44,9 @@
 
 (defn order-total
   [order]
-  (reduce + (map :price (vals order))))
+  (/ (reduce + (for [{:keys [price]} (vals order)]
+                 (* price 100)))
+     100))
 
 (defn moneyf [x]
   (pprint/cl-format nil "$~,2f" x))

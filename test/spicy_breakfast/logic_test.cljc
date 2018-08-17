@@ -26,4 +26,11 @@
             "bulkPricing" {"amount" 10
                            "totalPrice" 0.01}}
            13))
-      "Money should not suffer from small float math errors in bulk pricing"))
+      "Money should not suffer from small float math errors in bulk pricing")
+  (is (= 0.3
+         (logic/order-total
+           {1 {:price 0.1
+               :number 1}
+            2 {:price 0.2
+               :number 1}}))
+      "Order total should preserve money"))
