@@ -20,9 +20,9 @@
           (when-let [{:strs [amount totalPrice]} bulkPricing]
             (str " or " amount " for "
                  (logic/moneyf totalPrice)))]
+         [:br]
          [sa/Button
-          {:basic true
-           :on-click
+          {:on-click
            (fn click-add-to-cart [event]
              (model/add-to-cart! product))}
           "add to cart"]]]))])

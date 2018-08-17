@@ -25,28 +25,30 @@
                 :figwheel {:open-urls ["http://localhost:3449/index.html"]}
                 :compiler {:main spicy-breakfast.core
                            :asset-path "js/compiled/out"
-                           :output-to "resources/public/js/compiled/spicy_breakfast.js"
                            :output-dir "resources/public/js/compiled/out"
+                           :output-to "resources/public/js/compiled/spicy_breakfast.js"
                            :source-map-timestamp true
                            :preloads [devtools.preload]}}
                {:id "min"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/spicy_breakfast.js"
-                           :main spicy-breakfast.core
+                :compiler {:main spicy-breakfast.core
+                           :output-dir "target/out"
+                           :output-to "resources/public/js/compiled/spicy_breakfast.js"
                            :optimizations :advanced
                            :pretty-print false}}
                {:id "test"
                 :source-paths ["src" "test"]
-                :compiler {:output-to "resources/public/js/compiled/testable.js"
-                           :main spicy-breakfast.test-runner
-                           :optimizations :advanced}}
+                :compiler {:main spicy-breakfast.test-runner
+                           :output-dir "target/test_out"
+                           :output-to "resources/public/js/compiled/testable.js"
+                           :optimizations :whitespace}}
                {:id "devcards"
                 :source-paths ["src"]
                 :figwheel {:devcards true}
-                :compiler {:main "spicy-breakfast.core"
+                :compiler {:main "spicy-breakfast.view.devcards"
                            :asset-path "js/compiled/devcards_out"
-                           :output-to "resources/public/js/compiled/spicy_breakfast_devcards.js"
                            :output-dir "resources/public/js/compiled/devcards_out"
+                           :output-to "resources/public/js/compiled/spicy_breakfast_devcards.js"
                            :source-map-timestamp true }}]}
 
   :figwheel {:css-dirs ["resources/public/css"]}
@@ -56,7 +58,8 @@
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.16"]
                                   [cider/piggieback "0.3.8"]
-                                  [org.clojure/tools.nrepl "0.2.13"]]
+                                  [org.clojure/tools.nrepl "0.2.13"]
+                                  [lein-doo "0.1.10"]]
                    :source-paths ["src" "dev"]
                    :repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
                    :clean-targets ^{:protect false} ["resources/public/js/compiled"

@@ -37,6 +37,11 @@
   [app-state {:strs [id] :as product}]
   (update-in app-state [:cart id] update-or-add-line-item product))
 
+(defn remove-from-cart
+  "Transition app-state by removing a product from the shopping cart."
+  [app-state {:strs [id]}]
+  (update app-state :cart dissoc id))
+
 (defn order-total
   [order]
   (reduce + (map :price (vals order))))
