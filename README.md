@@ -5,9 +5,6 @@ Your one stop shop for delicious treats!
 Visit the site here:
 https://timothypratley.github.io/spicy-breakfast
 
-View the components here:
-https://timothypratley.github.io/spicy-breakfast/cards.html
-
 
 ## Overview
 
